@@ -1,0 +1,51 @@
+{% extends 'tienda/base.html' %}
+
+{% block content %}
+<div class="admin-page">
+
+    <div class="admin-header">
+        <h2>📊 Reporte Ejecutivo - RUAH PRINT</h2>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="reporte-card reporte-card-verde">
+                <h5>Total Recaudado</h5>
+                <p class="reporte-valor">${{ total_dinero }}</p>
+                <small>Solo pedidos con estado 'Pagado'</small>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="reporte-card reporte-card-azul">
+                <h5>Pedidos Totales</h5>
+                <p class="reporte-valor">{{ cantidad_pedidos }}</p>
+                <small>Historial completo de órdenes</small>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="reporte-card reporte-card-celeste">
+                <h5>Ticket Promedio</h5>
+                <p class="reporte-valor">${{ ticket_promedio|floatformat:0 }}</p>
+                <small>Valor medio de cada compra</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="tabla-admin">
+                <div class="reporte-seccion-header">Resumen por Estado</div>
+                <ul class="reporte-estado-lista">
+                    {% for item in ventas_por_estado %}
+                    <li class="reporte-estado-item">
+                        <span>{{ item.estado__nombre }}</span>
+                        <span class="estado-badge estado-{{ item.estado__nombre|lower }}">{{ item.total }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

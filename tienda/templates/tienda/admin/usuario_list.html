@@ -1,0 +1,55 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="admin-page">
+
+    <div class="admin-header">
+        <div>
+            <h2 class="mb-0">Mantenedor de Usuarios y Roles</h2>
+            <p class="admin-subtitle">Gestiona quién es Admin (Staff) y a qué grupos pertenecen.</p>
+        </div>
+        <a href="{% url 'crear_usuario' %}" class="btn-nuevo">+ Crear Nuevo Usuario</a>
+    </div>
+
+    <table class="tabla-admin">
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Nombre Completo</th>
+                <th>Email</th>
+                <th>¿Es Staff?</th>
+                <th>Grupos / Roles</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in usuarios %}
+            <tr>
+                <td class="col-codigo">{{ u.username }}</td>
+                <td>{{ u.first_name }} {{ u.last_name }}</td>
+                <td>{{ u.email }}</td>
+                <td>
+                    {% if u.is_staff %}
+                        <span class="estado-badge estado-pagado">✅ Sí</span>
+                    {% else %}
+                        <span class="estado-badge estado-entregado">❌ No</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% for g in u.groups.all %}
+                        <span class="usuario-grupo">{{ g.name }}</span>
+                    {% endfor %}
+                </td>
+                <td class="col-acciones">
+                    <a href="{% url 'editar_usuario' u.id %}" class="btn-accion btn-editar">Editar</a>
+                    <a href="{% url 'eliminar_usuario' u.id %}" class="btn-accion btn-eliminar"
+                       onclick="return confirm('¿Eliminar a este usuario?')">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}

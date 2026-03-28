@@ -1,0 +1,20 @@
+{% extends 'tienda/base.html' %}
+
+{% block content %}
+<div class="exito-container">
+    <h1 class="exito-titulo">¡Pedido Realizado con Éxito! 🎉</h1>
+    <p>Gracias por elegir <b>RUAH PRINT</b> para tus etiquetas.</p>
+
+    <div class="exito-card">
+        <h3>Resumen del Pedido #{{ pedido.id }}</h3>
+        <p><b>Estado:</b> {{ pedido.estado.nombre }}</p>
+        <p><b>Total Pagado:</b> ${{ pedido.total }}</p>
+        {% if transaccion %}
+        <p><b>Código de transacción:</b> <span class="estado-badge estado-pagado">{{ transaccion }}</span></p>
+        {% endif %}
+        <p>La boleta llegará a tu correo: <b>{{ user.email }}</b></p>
+    </div>
+
+    <a href="{% url 'index' %}" class="link-volver">← Volver a la Tienda</a>
+</div>
+{% endblock %}

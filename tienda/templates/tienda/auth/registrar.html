@@ -1,0 +1,23 @@
+{% extends 'tienda/base.html' %}
+
+{% block content %}
+<div class="form-card form-card-centrado">
+
+    <h2 class="text-center">📝 Crear Cuenta Nueva</h2>
+    <hr>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <div class="form-actions">
+            <button type="submit" class="btn-guardar">REGISTRARME</button>
+        </div>
+    </form>
+
+    <p class="text-center mt-3">
+        ¿Ya tienes cuenta? <a href="{% url 'login' %}" class="link-accion">Inicia sesión aquí</a>
+    </p>
+
+</div>
+{% endblock %}

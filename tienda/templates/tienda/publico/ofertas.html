@@ -1,0 +1,55 @@
+{% extends 'tienda/base.html' %}
+
+{% block content %}
+
+<div class="ofertas-hero">
+    <div class="container-fluid py-5 text-center">
+        <h1 class="display-5 fw-bold">🎒 Especial Escolar 2026</h1>
+        <p class="fs-4">Los mejores precios para marcar cuadernos, libros, lápices y ropa.</p>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for prod in ofertas %}
+        <div class="col">
+            <div class="card-hover h-100 position-relative">
+
+                <span class="oferta-badge">¡OFERTA!</span>
+
+                <div class="oferta-imagen-container">
+                    {% if prod.imagen %}
+                    <img src="{{ prod.imagen.url }}" alt="{{ prod.nombre }}" class="oferta-imagen">
+                    {% else %}
+                    <img src="https://via.placeholder.com/300x200.png?text=Sin+Imagen" alt="Sin imagen" class="oferta-imagen">
+                    {% endif %}
+                </div>
+
+                <div class="card-body text-center p-4">
+                    <h5 class="fw-bold text-dark mb-1">{{ prod.nombre }}</h5>
+                    <p class="text-muted small mb-3">{{ prod.descripcion|truncatechars:80 }}</p>
+
+                    <div class="mb-3">
+                        {% if "waterproof" in prod.nombre.lower %}
+                        <span class="oferta-tag oferta-tag-water">💧 Waterproof</span>
+                        {% endif %}
+                        {% if "ropa" in prod.nombre.lower %}
+                        <span class="oferta-tag oferta-tag-ropa">👕 Ropa</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <span class="price-tag">${{ prod.precio }}</span>
+                        <a href="{% url 'agregar_carrito' prod.codigo %}" class="btn-buy btn-buy-inline">
+                            🛒 Agregar
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

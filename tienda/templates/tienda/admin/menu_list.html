@@ -1,0 +1,44 @@
+{% extends 'tienda/base.html' %}
+
+{% block content %}
+<div class="admin-page">
+
+    <div class="admin-header">
+        <h2>Configuración del Menú Dinámico</h2>
+        <a href="{% url 'crear_menu' %}" class="btn-nuevo">+ Agregar Nuevo Botón</a>
+    </div>
+    <p class="admin-subtitle">Aquí puedes definir qué botones aparecen en el Navbar según el perfil.</p>
+
+    <table class="tabla-admin">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Texto del Botón</th>
+                <th>Perfil Requerido</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td class="col-codigo">{{ item.codigo }}</td>
+                <td>{{ item.texto }}</td>
+                <td>{{ item.perfil }}</td>
+                <td class="col-acciones">
+                    <a href="{% url 'editar_menu' item.id %}" class="btn-accion btn-editar">Editar</a>
+                    <a href="{% url 'eliminar_menu' item.id %}" class="btn-accion btn-eliminar"
+                       onclick="return confirm('¿Seguro que quieres borrar este botón?')">Eliminar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr class="tabla-vacia">
+                <td colspan="4">No hay botones configurados en el menú dinámico.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'index' %}" class="link-volver">← Volver al Inicio</a>
+
+</div>
+{% endblock %}

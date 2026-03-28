@@ -1,0 +1,1217 @@
+/* ============================================
+   RUAH PRINT - ESTILOS PRINCIPALES
+   ============================================ */
+
+/* --- VARIABLES (buena práctica: colores centralizados) --- */
+:root {
+    --color-primario: #2c3e50;
+    --color-acento: #3498db;
+    --color-naranja: #e67e22;
+    --color-verde: #27ae60;
+    --color-rojo: #e74c3c;
+    --color-fondo: #f4f4f7;
+    --color-blanco: #ffffff;
+    --sombra-suave: 0 4px 15px rgba(0, 0, 0, 0.07);
+    --sombra-hover: 0 15px 30px rgba(0, 0, 0, 0.12);
+    --radio-card: 20px;
+    --transicion: 0.3s ease;
+}
+
+/* --- CONFIGURACIÓN BASE --- */
+*, *::before, *::after {
+    box-sizing: border-box; /* Evita desbordamientos inesperados */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background-color: var(--color-fondo);
+    color: #333;
+    line-height: 1.6;
+}
+
+/* --- NAVBAR --- */
+.navbar-custom {
+    background: var(--color-primario);
+    padding: 1rem 2rem;
+    color: var(--color-blanco);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    position: sticky; /* Se queda arriba al hacer scroll */
+    top: 0;
+    z-index: 100;
+}
+
+.navbar-custom a {
+    color: var(--color-blanco);
+    text-decoration: none;
+    margin-right: 18px;
+    transition: color var(--transicion);
+}
+
+.navbar-custom a:hover {
+    color: var(--color-acento);
+}
+
+.nav-group {
+    display: flex;
+    align-items: center;
+}
+
+.admin-badge {
+    background: var(--color-rojo);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.7em;
+    margin-left: 8px;
+    color: var(--color-blanco);
+    font-weight: bold;
+}
+
+/* --- DROPDOWN MENÚ --- */
+.dropdown-menu {
+    border: none;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    padding: 8px;
+}
+
+.dropdown-item {
+    color: #2c3e50 !important;      /* Color oscuro siempre */
+    border-radius: 8px;
+    padding: 8px 16px;
+    transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background-color: #f0f4f8;
+    color: #2c3e50 !important;      /* Mantiene color oscuro en hover */
+}
+
+/* --- HERO SECTION (BANNER) --- */
+.hero-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)),
+                url('https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=1350&q=80');
+    background-size: cover;
+    background-position: center;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    border-radius: 0 0 50px 50px;
+    color: var(--color-blanco);
+}
+
+/* --- CONTENEDOR PRINCIPAL --- */
+.container-main {
+    padding: 40px 15px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* --- TARJETAS DE PRODUCTO --- */
+.card-hover {
+    transition: transform var(--transicion), box-shadow var(--transicion);
+    border-radius: var(--radio-card) !important;
+    background: var(--color-blanco);
+    border: none !important;
+    box-shadow: var(--sombra-suave);
+    overflow: hidden; /* Importante: contiene la imagen dentro del borde redondeado */
+}
+
+.card-hover:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--sombra-hover) !important;
+}
+
+/* --- IMAGEN DE PRODUCTO --- */
+
+.product-image-container {
+    background-color: #f8f9fa;
+    height: 220px;
+    width: 100%;           /* Ancho completo de la tarjeta, no fijo */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-image-container img,
+.card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;       /* Recorta sin deformar, como Instagram */
+    object-position: center;
+    transition: transform 0.5s ease;
+    display: block;          /* Elimina espacio extra debajo de la imagen */
+}
+
+.card-hover:hover .product-image-container img,
+.card-hover:hover .card img {
+    transform: scale(1.05);  /* Zoom suave al hacer hover */
+}
+
+/* --- BADGE DE CATEGORÍA --- */
+.badge-category {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 5px 12px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 0.7rem;
+    z-index: 5;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* --- PRECIO --- */
+.price-tag {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-verde);
+}
+
+/* --- BOTÓN COMPRAR --- */
+.btn-buy {
+    background-color: var(--color-naranja);
+    color: var(--color-blanco) !important;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-weight: bold;
+    font-size: 1rem;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color var(--transicion), transform var(--transicion);
+}
+
+.btn-buy:hover {
+    background-color: #d35400; /* Naranja más oscuro al pasar el mouse */
+    transform: scale(1.02);
+}
+
+
+/* 
+   AGREGAR ESTO AL FINAL DE TU estilos.css
+    */
+
+/* --- PÁGINA GENERAL DE ADMINISTRACIÓN --- */
+.admin-page {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 15px;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.admin-header h2 {
+    font-size: 1.6rem;
+    color: var(--color-primario);
+    margin: 0;
+}
+
+.admin-subtitle {
+    color: #888;
+    font-size: 0.9rem;
+    margin-bottom: 25px;
+}
+
+/* --- BOTÓN NUEVA CATEGORÍA --- */
+.btn-nuevo {
+    background: var(--color-verde);
+    color: var(--color-blanco) !important;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: background-color var(--transicion), transform var(--transicion);
+    white-space: nowrap;
+}
+
+.btn-nuevo:hover {
+    background: #219a52;
+    transform: scale(1.02);
+}
+
+/* --- TABLA --- */
+.tabla-admin {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--color-blanco);
+    border-radius: 12px;
+    overflow: hidden;             
+    box-shadow: var(--sombra-suave);
+}
+
+.tabla-admin thead {
+    background: var(--color-primario);
+    color: var(--color-blanco);
+}
+
+.tabla-admin thead th {
+    padding: 14px 20px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.tabla-admin tbody tr {
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color var(--transicion);
+}
+
+.tabla-admin tbody tr:last-child {
+    border-bottom: none;
+}
+
+.tabla-admin tbody tr:hover {
+    background-color: #f8fafc;   
+}
+
+.tabla-admin td {
+    padding: 14px 20px;
+    color: #444;
+    font-size: 0.95rem;
+}
+
+.tabla-admin .col-codigo {
+    font-weight: 700;
+    color: var(--color-primario);
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+}
+
+.tabla-admin .col-acciones {
+    text-align: right;
+    white-space: nowrap;
+}
+
+/* --- LINKS DE ACCIÓN (Editar / Eliminar) --- */
+.btn-accion {
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color var(--transicion);
+    display: inline-block;
+}
+
+.btn-editar {
+    color: #2980b9;
+    background: #eaf4fb;
+}
+
+.btn-editar:hover {
+    background: #d0eaf8;
+    color: #1a6a9a;
+}
+
+.btn-eliminar {
+    color: var(--color-rojo);
+    background: #fdecea;
+}
+
+.btn-eliminar:hover {
+    background: #fad4d0;
+    color: #a93226;
+}
+
+/* --- FILA VACÍA --- */
+.tabla-vacia td {
+    padding: 40px 20px;
+    text-align: center;
+    color: #aaa;
+    font-style: italic;
+}
+
+/* --- LINK VOLVER --- */
+.link-volver {
+    display: inline-block;
+    margin-top: 25px;
+    color: #888;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color var(--transicion);
+}
+
+.link-volver:hover {
+    color: var(--color-primario);
+}
+
+/* 
+   FORMULARIO DE CATEGORÍA (categoria_form)
+    */
+.form-card {
+    max-width: 520px;
+    margin: 40px auto;
+    background: var(--color-blanco);
+    padding: 35px 40px;
+    border-radius: 16px;
+    box-shadow: var(--sombra-suave);
+}
+
+.form-card h2 {
+    color: var(--color-primario);
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 1.4rem;
+}
+
+.form-card .form-subtitle {
+    color: #888;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+}
+
+.form-card hr {
+    border: none;
+    border-top: 1px solid #eee;
+    margin-bottom: 25px;
+}
+
+/* Mejora visual de los campos generados por {{ form.as_p }} */
+.form-card p {
+    margin-bottom: 16px;
+}
+
+.form-card label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.form-card input[type="text"],
+.form-card input[type="number"],
+.form-card select,
+.form-card textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid #dde1e7;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: border-color var(--transicion);
+    box-sizing: border-box;
+}
+
+.form-card input:focus,
+.form-card select:focus,
+.form-card textarea:focus {
+    outline: none;
+    border-color: var(--color-acento);  
+}
+
+/* --- BOTONES DEL FORMULARIO --- */
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.btn-guardar {
+    background: var(--color-primario);
+    color: var(--color-blanco) !important;
+    padding: 11px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.95rem;
+    flex: 1;
+    transition: background-color var(--transicion);
+}
+
+.btn-guardar:hover {
+    background: #1a252f;
+}
+
+.btn-cancelar {
+    background: #ecf0f1;
+    color: #555 !important;
+    padding: 11px 20px;
+    text-decoration: none;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.95rem;
+    flex: 1;
+    transition: background-color var(--transicion);
+}
+
+.btn-cancelar:hover {
+    background: #dde1e3;
+}
+
+
+/* 
+   BODEGA / INVENTARIO
+    */
+
+/* Tarjeta con stock bajo: borde izquierdo rojo */
+.card-stock-bajo {
+    border-left: 4px solid var(--color-rojo) !important;
+}
+
+/* Título de la tarjeta con ancho máximo para no desbordar */
+.card-titulo {
+    max-width: 80%;
+}
+
+/* Etiqueta "STOCK ACTUAL" */
+.stock-label {
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 0.7rem;
+    color: #888;
+    letter-spacing: 0.5px;
+}
+
+/* Texto "Reponer" bajo el badge rojo */
+.texto-reponer {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--color-rojo);
+}
+
+/* Animación pulso para badge "¡Bajo!" */
+.pulse-animation {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%   { opacity: 1; }
+    50%  { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+
+/* 
+   CARRITO DE COMPRAS
+    */
+
+.carrito-titulo {
+    color: var(--color-primario);
+    margin-bottom: 5px;
+}
+
+/* Celdas centradas */
+.carrito-centro {
+    text-align: center;
+    padding: 14px 20px;
+}
+
+/* Nombre del producto en negrita */
+.carrito-nombre {
+    padding: 14px 20px;
+    font-weight: 700;
+}
+
+/* Subtotal en verde */
+.carrito-subtotal {
+    text-align: center;
+    padding: 14px 20px;
+    color: var(--color-verde);
+    font-weight: 700;
+}
+
+/* Fila del total */
+.carrito-fila-total {
+    background: #f9f9f9;
+    font-size: 1.1rem;
+}
+
+.carrito-total-label {
+    text-align: right;
+    padding: 15px 20px;
+    font-weight: 700;
+}
+
+.carrito-total-valor {
+    text-align: center;
+    padding: 15px 20px;
+    font-weight: 700;
+    color: var(--color-primario);
+    font-size: 1.2rem;
+}
+
+/* Carrito vacío */
+.carrito-vacio {
+    padding: 50px 20px;
+    text-align: center;
+    color: #7f8c8d;
+}
+
+/* Barra inferior de acciones */
+.carrito-acciones {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.carrito-botones {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Botón vaciar carrito */
+.btn-vaciar {
+    color: #95a5a6;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color var(--transicion);
+}
+
+.btn-vaciar:hover {
+    color: var(--color-rojo);
+}
+
+/* Botón confirmar y pagar */
+.btn-confirmar {
+    background: var(--color-verde);
+    color: var(--color-blanco) !important;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+    transition: background-color var(--transicion), transform var(--transicion);
+}
+
+.btn-confirmar:hover {
+    background: #219a52;
+    transform: translateY(-2px);
+}
+
+
+/* 
+   COMPRA EXITOSA
+    */
+
+.exito-container {
+    text-align: center;
+    padding: 60px 20px;
+    max-width: 600px;
+    margin: auto;
+}
+
+.exito-titulo {
+    color: var(--color-verde);
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.exito-card {
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    display: inline-block;
+    padding: 25px 35px;
+    border-radius: 12px;
+    margin: 25px 0;
+    text-align: left;
+    box-shadow: var(--sombra-suave);
+    min-width: 300px;
+}
+
+.exito-card h3 {
+    color: var(--color-primario);
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.exito-card p {
+    margin: 8px 0;
+    color: #555;
+}
+
+
+/* 
+   CONTACTO
+    */
+
+/* Panel izquierdo oscuro */
+.contacto-panel {
+    background: var(--color-primario);
+    color: var(--color-blanco);
+}
+
+/* Links de redes sociales */
+.contacto-red {
+    color: var(--color-blanco);
+    font-size: 1.3rem;
+    text-decoration: none;
+    transition: opacity var(--transicion);
+}
+
+.contacto-red:hover {
+    opacity: 0.75;
+}
+
+/* Botón enviar mensaje */
+.btn-contacto {
+    background-color: var(--color-acento);
+    color: var(--color-blanco);
+    border: none;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: background-color var(--transicion), transform var(--transicion);
+}
+
+.btn-contacto:hover {
+    background-color: #2185c5;
+    color: var(--color-blanco);
+    transform: translateY(-2px);
+}
+
+
+/* 
+   GESTIÓN DE VENTAS
+    */
+
+.ventas-id {
+    font-weight: 700;
+    color: var(--color-primario);
+    padding: 14px 20px;
+}
+
+.ventas-th-centro {
+    text-align: center;
+}
+
+/* --- BADGES DE ESTADO --- */
+
+.estado-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+.estado-pendiente  { background: #fef3cd; color: #856404; }
+.estado-pagado     { background: #d1f2e1; color: #155724; }
+.estado-bodega     { background: #cce5ff; color: #004085; }
+.estado-enviado    { background: #d1ecf1; color: #0c5460; }
+.estado-entregado  { background: #e2e3e5; color: #383d41; }
+
+/* --- BOTONES DE CAMBIO DE ESTADO --- */
+.ventas-acciones {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 8px 12px;
+}
+
+.btn-estado {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1.5px solid transparent;
+    transition: background-color var(--transicion), color var(--transicion);
+}
+
+.btn-estado-pagado   { border-color: #27ae60; color: #27ae60; }
+.btn-estado-bodega   { border-color: #2980b9; color: #2980b9; }
+.btn-estado-enviado  { border-color: #17a2b8; color: #17a2b8; }
+.btn-estado-entregado{ border-color: #444;    color: #444;    }
+
+.btn-estado-pagado:hover    { background: #27ae60; color: white; }
+.btn-estado-bodega:hover    { background: #2980b9; color: white; }
+.btn-estado-enviado:hover   { background: #17a2b8; color: white; }
+.btn-estado-entregado:hover { background: #444;    color: white; }
+
+/* 
+   LOGIN (variante centrada del form-card)
+    */
+
+/* Centra la tarjeta verticalmente con más margen arriba */
+.form-card-centrado {
+    margin-top: 60px;
+    max-width: 420px;
+}
+
+/* 
+   MIS PEDIDOS
+    */
+
+/* Header de cada tarjeta de pedido */
+.pedido-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+    background: var(--color-blanco);
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* Fecha del pedido */
+.pedido-fecha {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 12px;
+}
+
+/* Lista de productos del pedido */
+.pedido-detalle-lista {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 15px 0;
+    border-top: 1px solid #f0f0f0;
+}
+
+.pedido-detalle-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.88rem;
+    padding: 8px 0;
+    border-bottom: 1px solid #f9f9f9;
+    color: #555;
+}
+
+/* Total alineado a la derecha */
+.pedido-total {
+    text-align: right;
+}
+
+/* Estado vacío */
+.pedido-vacio {
+    text-align: center;
+    padding: 60px 20px;
+    color: #888;
+}
+
+.pedido-vacio p {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+
+/* 
+   OFERTAS
+    */
+
+/* Banner hero */
+.ofertas-hero {
+    background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+    color: var(--color-blanco);
+    border-radius: 0 0 30px 30px;
+    margin-bottom: 10px;
+    padding: 20px 0;
+}
+
+/* Badge "¡OFERTA!" */
+.oferta-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: var(--color-rojo);
+    color: var(--color-blanco);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 5px 10px;
+    border-radius: 6px;
+    z-index: 5;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* Contenedor imagen */
+.oferta-imagen-container {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    background: #fafafa;
+}
+
+/* Imagen del producto */
+.oferta-imagen {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;      
+    object-position: top center;
+    transition: transform 0.4s ease;
+}
+
+.card-hover:hover .oferta-imagen {
+    transform: scale(1.05);
+}
+
+/* Tags waterproof / ropa */
+.oferta-tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 50px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin: 2px;
+}
+
+.oferta-tag-water {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.oferta-tag-ropa {
+    background: #e2e3e5;
+    color: #383d41;
+}
+
+/* Botón agregar al carrito en versión inline (dentro de flex) */
+.btn-buy-inline {
+    display: inline-block;
+    width: auto;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+}
+
+/* ============================================
+   PRODUCTO LIST
+   ============================================ */
+
+/* Contenedor de stock activo (badge + cantidad) */
+.producto-stock-ok {
+    display: flex;
+    align-items: center;
+}
+
+/* ============================================
+   REGISTRAR (y links de acción en general)
+   ============================================ */
+
+/* Link azul inline, reutilizable en cualquier template */
+.link-accion {
+    color: var(--color-acento);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color var(--transicion);
+}
+
+.link-accion:hover {
+    color: #1a6fa8;
+    text-decoration: underline;
+}
+
+/* ============================================
+   REPORTE DE VENTAS
+   ============================================ */
+
+/* Tarjetas de métricas */
+.reporte-card {
+    color: var(--color-blanco);
+    border-radius: var(--radio-card);
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: var(--sombra-suave);
+}
+
+.reporte-card h5 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    opacity: 0.85;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.reporte-card small {
+    opacity: 0.75;
+    font-size: 0.8rem;
+}
+
+.reporte-card-verde   { background: linear-gradient(135deg, #27ae60, #2ecc71); }
+.reporte-card-azul    { background: linear-gradient(135deg, #2980b9, #3498db); }
+.reporte-card-celeste { background: linear-gradient(135deg, #17a2b8, #48d1e0); }
+
+/* Valor principal de la métrica */
+.reporte-valor {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin: 5px 0 8px;
+    line-height: 1;
+}
+
+/* Header de la sección de estado */
+.reporte-seccion-header {
+    background: var(--color-primario);
+    color: var(--color-blanco);
+    padding: 14px 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+/* Lista resumen por estado */
+.reporte-estado-lista {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.reporte-estado-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 0.95rem;
+    color: #444;
+}
+
+.reporte-estado-item:last-child {
+    border-bottom: none;
+}
+
+/* ============================================
+   FORMULARIOS - nota al pie
+   ============================================ */
+
+/* Nota informativa bajo el formulario */
+.form-nota {
+    font-size: 0.82rem;
+    color: #999;
+    margin-top: 20px;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 12px;
+}
+
+/* ============================================
+   USUARIO LIST
+   ============================================ */
+
+/* Badge de grupo/rol del usuario */
+.usuario-grupo {
+    display: inline-block;
+    background: #e8e9ea;
+    color: #444;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    margin: 2px;
+}
+
+.carrito-btn {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+.carrito-btn:hover { color: #3498db; }
+
+.carrito-contador {
+    background: var(--color-naranja);
+    color: white;
+    border-radius: 50%;
+    padding: 1px 6px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    margin-left: 4px;
+}
+
+/* ============================================
+   DASHBOARD ANALYTICS
+   ============================================ */
+
+/* Alerta stock crítico */
+.dashboard-alerta {
+    background: #fff8e1;
+    border-left: 4px solid #f39c12;
+    border-radius: 12px;
+    padding: 20px 25px;
+    margin-bottom: 30px;
+    box-shadow: var(--sombra-suave);
+}
+
+.dashboard-alerta h5 {
+    color: #856404;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+/* Tarjeta de producto crítico */
+.dashboard-stock-card {
+    background: var(--color-blanco);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: var(--sombra-suave);
+}
+
+.dashboard-stock-critico {
+    border-left: 4px solid var(--color-rojo);
+}
+
+/* Barra de progreso stock */
+.dashboard-barra-fondo {
+    background: #f0f0f0;
+    border-radius: 50px;
+    height: 8px;
+    overflow: hidden;
+}
+
+.dashboard-barra-critica {
+    background: var(--color-rojo);
+    height: 100%;
+    border-radius: 50px;
+    transition: width 0.5s ease;
+    min-width: 5%;
+}
+
+/* Tarjeta naranja para carritos abandonados */
+.reporte-card-naranja {
+    background: linear-gradient(135deg, #e67e22, #f39c12);
+}
+
+/* Contenedor de gráfico */
+.dashboard-grafico-card {
+    background: var(--color-blanco);
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: var(--sombra-suave);
+    height: 100%;
+}
+
+.dashboard-grafico-titulo {
+    color: var(--color-primario);
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* DETALLE DE PRODUCTO */
+
+.detalle-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: start;
+    margin-bottom: 40px;
+}
+
+.detalle-imagen-contenedor {
+    border-radius: 16px;
+    overflow: hidden;
+    background: #f8f9fa;
+    box-shadow: var(--sombra-suave);
+}
+
+.detalle-imagen {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    display: block;
+}
+
+.detalle-imagen-placeholder {
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+    font-size: 1rem;
+}
+
+.detalle-info {
+    padding: 10px 0;
+}
+
+.detalle-titulo {
+    font-size: 1.8rem;
+    color: var(--color-primario);
+    margin: 10px 0 15px;
+    line-height: 1.3;
+}
+
+.detalle-descripcion {
+    color: #666;
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+.detalle-precio-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.detalle-btn-comprar {
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem;
+    text-align: center;
+    border-radius: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .detalle-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+}
+
+
+/* CONTROL DE CANTIDAD EN CARRITO  */
+
+.carrito-cantidad-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.carrito-cantidad-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: #f0f4f8;
+    color: #2c3e50;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 700;
+    transition: background var(--transicion);
+}
+
+.carrito-cantidad-btn:hover {
+    background: #2c3e50;
+    color: white;
+}
+
+.carrito-cantidad-numero {
+    font-weight: 700;
+    font-size: 1rem;
+    min-width: 20px;
+    text-align: center;
+}

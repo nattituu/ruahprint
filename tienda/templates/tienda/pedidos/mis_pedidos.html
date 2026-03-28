@@ -1,0 +1,54 @@
+{% extends 'tienda/base.html' %}
+
+{% block content %}
+<div class="admin-page">
+
+    <div class="admin-header">
+        <h2>📋 Mi Historial de Pedidos</h2>
+    </div>
+    <hr>
+
+    {% if pedidos %}
+    <div class="row">
+        {% for pedido in pedidos %}
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm border-0">
+
+                <div class="pedido-header">
+                    <span class="fw-bold">Orden #{{ pedido.id }}</span>
+                    <span class="estado-badge estado-{{ pedido.estado.nombre|lower }}">
+                        {{ pedido.estado.nombre }}
+                    </span>
+                </div>
+
+                <div class="card-body">
+                    <p class="pedido-fecha">Realizado el: {{ pedido.fecha|date:"d/m/Y H:i" }}</p>
+
+                    <ul class="pedido-detalle-lista">
+                        {% for detalle in pedido.detalles.all %}
+                        <li class="pedido-detalle-item">
+                            <span>{{ detalle.cantidad }}x {{ detalle.producto.nombre }}</span>
+                            <span>${{ detalle.precio_unitario }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+
+                    <div class="pedido-total">
+                        <h5 class="price-tag">Total: ${{ pedido.total }}</h5>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% else %}
+    <div class="pedido-vacio">
+        <p>Aún no tienes pedidos. ¡Marca todo lo que necesites!</p>
+        <a href="{% url 'index' %}" class="btn-confirmar">Ir a la tienda</a>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

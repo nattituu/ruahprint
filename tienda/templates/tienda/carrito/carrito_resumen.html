@@ -1,0 +1,71 @@
+{% extends 'tienda/base.html' %}
+
+{% block content %}
+<div class="admin-page">
+    <h2 class="carrito-titulo">🛒 Tu Carrito de Compras</h2>
+    <p class="admin-subtitle">Revisa tus etiquetas antes de confirmar el pedido.</p>
+    <hr>
+
+    <table class="tabla-admin">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Subtotal</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if items %}
+                {% for item in items %}
+                <tr>
+                    <td class="carrito-nombre">{{ item.producto.nombre }}</td>
+                    <td class="carrito-centro">
+    <div class="carrito-cantidad-control">
+        <a href="{% url 'actualizar_cantidad_carrito' item.producto.codigo 'restar' %}" 
+           class="carrito-cantidad-btn">−</a>
+        <span class="carrito-cantidad-numero">{{ item.cantidad }}</span>
+        <a href="{% url 'actualizar_cantidad_carrito' item.producto.codigo 'sumar' %}" 
+           class="carrito-cantidad-btn">+</a>
+    </div>
+</td>
+                    <td class="carrito-centro">${{ item.producto.precio }}</td>
+                    <td class="carrito-subtotal">${{ item.get_subtotal }}</td>
+                    <td class="carrito-centro">
+                        <a href="{% url 'eliminar_del_carrito' item.producto.codigo %}" class="btn-accion btn-eliminar">
+                            ❌ Quitar
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+
+                <tr class="carrito-fila-total">
+                    <td colspan="3" class="carrito-total-label">TOTAL A PAGAR:</td>
+                    <td class="carrito-total-valor">${{ total_carrito }}</td>
+                    <td></td>
+                </tr>
+
+            {% else %}
+                <tr>
+                    <td colspan="5" class="carrito-vacio">
+                        <h3>Tu carrito está vacío 😮</h3>
+                        <p>Agrega algunas etiquetas desde el catálogo para comenzar.</p>
+                    </td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+    <div class="carrito-acciones">
+        <a href="{% url 'index' %}" class="link-volver">← Volver a la Tienda</a>
+
+        {% if items %}
+        <div class="carrito-botones">
+            <a href="{% url 'limpiar_carrito' %}" class="btn-vaciar">Vaciar Carrito</a>
+            <a href="{% url 'finalizar_compra' %}" class="btn-confirmar">CONFIRMAR Y PAGAR ✅</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

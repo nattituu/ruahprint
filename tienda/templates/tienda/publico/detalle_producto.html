@@ -1,0 +1,84 @@
+{% extends 'tienda/base.html' %}
+
+{% block content %}
+<div class="container-main">
+
+    <!-- Breadcrumb -->
+    <p style="color: #888; font-size: 0.9rem; margin-bottom: 25px;">
+        <a href="{% url 'index' %}" class="link-accion">Inicio</a> 
+        › {{ producto.categoria.nombre }} 
+        › {{ producto.nombre }}
+    </p>
+
+    <!-- Detalle principal -->
+    <div class="detalle-grid">
+
+        <!-- Imagen -->
+        <div class="detalle-imagen-contenedor">
+            {% if producto.imagen %}
+                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="detalle-imagen">
+            {% else %}
+                <div class="detalle-imagen-placeholder">Sin imagen</div>
+            {% endif %}
+        </div>
+
+        <!-- Info -->
+        <div class="detalle-info">
+            <span class="oferta-tag oferta-tag-water">{{ producto.categoria.nombre }}</span>
+            <h1 class="detalle-titulo">{{ producto.nombre }}</h1>
+            <p class="detalle-descripcion">{{ producto.descripcion }}</p>
+
+            <div class="detalle-precio-row">
+                <span class="price-tag">${{ producto.precio }}</span>
+                {% if producto.inventario %}
+                    {% if producto.inventario.cantidad > 0 %}
+                        <span class="estado-badge estado-pagado">✅ En stock ({{ producto.inventario.cantidad }} uni.)</span>
+                    {% else %}
+                        <span class="estado-badge estado-pendiente">❌ Sin stock</span>
+                    {% endif %}
+                {% endif %}
+            </div>
+
+            {% if producto.inventario and producto.inventario.cantidad > 0 %}
+                <a href="{% url 'agregar_carrito' producto.codigo %}" class="btn-buy detalle-btn-comprar">
+                    🛒 Agregar al Carrito
+                </a>
+            {% else %}
+                <button class="btn-buy detalle-btn-comprar" disabled style="opacity: 0.5; cursor: not-allowed;">
+                    Sin Stock
+                </button>
+            {% endif %}
+
+            <a href="{% url 'index' %}" class="link-volver" style="display: block; margin-top: 15px;">
+                ← Volver al catálogo
+            </a>
+        </div>
+    </div>
+
+    <!-- Productos relacionados -->
+    {% if relacionados %}
+    <div style="margin-top: 50px;">
+        <h3 style="color: #2c3e50; margin-bottom: 20px;">También te puede interesar</h3>
+        <div class="row g-4">
+            {% for prod in relacionados %}
+            <div class="col-md-3">
+                <a href="{% url 'detalle_producto' prod.codigo %}" style="text-decoration: none;">
+                    <div class="card-hover">
+                        {% if prod.imagen %}
+                            <img src="{{ prod.imagen.url }}" alt="{{ prod.nombre }}"
+                                 style="width: 100%; height: 160px; object-fit: cover;">
+                        {% endif %}
+                        <div style="padding: 15px;">
+                            <h6 style="color: #2c3e50; margin: 0 0 5px;">{{ prod.nombre }}</h6>
+                            <span class="price-tag" style="font-size: 1.1rem;">${{ prod.precio }}</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

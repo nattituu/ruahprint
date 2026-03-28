@@ -1,0 +1,23 @@
+{% extends 'tienda/base.html' %}
+
+{% block content %}
+<div class="form-card">
+
+    <h2>{% if edit %}Modificar{% else %}Nueva{% endif %} Categoría</h2>
+    <p class="form-subtitle">Define los grupos de etiquetas (ej: Textil, Libros, etc.)</p>
+    <hr>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <div class="form-actions">
+            <button type="submit" class="btn-guardar">
+                {% if edit %}Guardar Cambios{% else %}Crear Categoría{% endif %}
+            </button>
+            <a href="{% url 'listar_categoria' %}" class="btn-cancelar">Cancelar</a>
+        </div>
+    </form>
+
+</div>
+{% endblock %}

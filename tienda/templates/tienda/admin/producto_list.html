@@ -1,0 +1,64 @@
+{% extends 'tienda/base.html' %}
+
+{% block content %}
+<div class="admin-page">
+
+    <div class="admin-header">
+        <div>
+            <h2 class="mb-0">📦 Gestión de Inventario de Etiquetas</h2>
+            <p class="admin-subtitle">Administra tus productos, precios y disponibilidad.</p>
+        </div>
+        <a href="{% url 'crear_producto' %}" class="btn-nuevo">+ Nuevo Producto</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="tabla-admin">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Categoría</th>
+                    <th>Precio</th>
+                    <th>Estado / Stock</th>
+                    <th class="ventas-th-centro">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in productos %}
+                <tr>
+                    <td class="col-codigo">{{ p.codigo }}</td>
+                    <td>{{ p.nombre }}</td>
+                    <td>
+                        <span class="oferta-tag oferta-tag-water">{{ p.categoria.nombre }}</span>
+                    </td>
+                    <td class="carrito-subtotal">${{ p.precio }}</td>
+                    <td>
+                        {% if p.inventario and p.inventario.cantidad > 0 %}
+                        <div class="producto-stock-ok">
+                            <span class="estado-badge estado-pagado">✅ Activo</span>
+                            <small class="text-muted ms-2">{{ p.inventario.cantidad }} uni.</small>
+                        </div>
+                        {% else %}
+                        <span class="estado-badge estado-pendiente">❌ Sin Stock</span>
+                        {% endif %}
+                    </td>
+                    <td class="col-acciones">
+                        <a href="{% url 'editar_producto' p.codigo %}" class="btn-accion btn-editar">Editar</a>
+                        <a href="{% url 'eliminar_producto' p.codigo %}" class="btn-accion btn-eliminar"
+                           onclick="return confirm('¿Estás segura de eliminar {{ p.nombre }}?')">Borrar</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="tabla-vacia">
+                        <p class="mb-1">No hay productos registrados aún.</p>
+                        <a href="{% url 'crear_producto' %}" class="link-volver">Crea el primer producto aquí</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'tienda/base.html' %}
+
+{% block content %}
+<div class="admin-page">
+
+    <div class="admin-header">
+        <h2>Mantenedor de Categorías</h2>
+        <a href="{% url 'crear_categoria' %}" class="btn-nuevo">+ Nueva Categoría</a>
+    </div>
+    <p class="admin-subtitle">Estas categorías clasifican tus etiquetas escolares en el catálogo.</p>
+
+    <table class="tabla-admin">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre de Categoría</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cat in categorias %}
+            <tr>
+                <td class="col-codigo">{{ cat.codigo }}</td>
+                <td>{{ cat.nombre }}</td>
+                <td class="col-acciones">
+                    <a href="{% url 'modificar_categoria' cat.codigo %}" class="btn-accion btn-editar">Editar</a>
+                    <a href="{% url 'eliminar_categoria' cat.codigo %}" class="btn-accion btn-eliminar"
+                       onclick="return confirm('¿Estás segura? Si borras esta categoría, podrías afectar a los productos asociados.')">
+                        Eliminar
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr class="tabla-vacia">
+                <td colspan="3">No hay categorías creadas aún.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'index' %}" class="link-volver">← Volver a la Tienda</a>
+
+</div>
+{% endblock %}

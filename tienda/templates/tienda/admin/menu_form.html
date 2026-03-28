@@ -1,0 +1,21 @@
+{% extends 'tienda/base.html' %}
+
+{% block content %}
+<div class="form-card">
+
+    <h2>Configurar Nuevo Botón</h2>
+    <p class="form-subtitle">Agrega o edita un enlace en el menú de navegación.</p>
+    <hr>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <div class="form-actions">
+            <button type="submit" class="btn-guardar">Guardar en Menú</button>
+            <a href="{% url 'listar_menu' %}" class="btn-cancelar">Cancelar</a>
+        </div>
+    </form>
+
+</div>
+{% endblock %}

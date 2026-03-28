@@ -1,0 +1,121 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruah Print | Etiquetas Escolares</title>
+   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{% static '/css/estilos.css' %}">
+</head>
+<body>
+
+<nav class="navbar-custom">
+    <div class="nav-group">
+        <a href="{% url 'index' %}" class="fw-bold fs-5">RUAH PRINT</a>
+        
+        <a href="{% url 'ofertas_escolares' %}" class="btn-ofertas">🎒 Ofertas Escolares</a>
+
+        {% for item in menu_items %}
+    {% with hijos=item.hijos.all %}
+        {% if hijos %}
+            <!-- Item con submenú desplegable -->
+            <div class="dropdown d-inline-block">
+                <a class="dropdown-toggle text-white text-decoration-none me-2"
+                   href="#" role="button"
+                   data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ item.texto }}
+                </a>
+                <ul class="dropdown-menu shadow">
+                    {% for hijo in hijos %}
+                    <li>
+                        <a class="dropdown-item" href="#">{{ hijo.texto }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <!-- Item simple sin submenú -->
+            {% if item.texto == "Contacto" %}
+                <a href="{% url 'contacto' %}">{{ item.texto }}</a>
+            {% elif item.texto == "Mis Pedidos" %}
+                <a href="{% url 'mis_pedidos' %}">{{ item.texto }}</a>
+            {% else %}
+                <a href="#">{{ item.texto }}</a>
+            {% endif %}
+        {% endif %}
+    {% endwith %}
+{% endfor %}
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'ver_carrito' %}" class="carrito-btn">
+                🛒 Carrito
+                {% if carrito_cantidad > 0 %}
+                    <span class="carrito-contador">{{ carrito_cantidad }}</span>
+                {% endif %}
+            </a>
+        {% endif %}
+
+        {% if user.is_staff %}
+        <div class="dropdown d-inline-block ms-2">
+            <a class="dropdown-toggle text-warning fw-bold text-decoration-none" href="#" role="button" 
+               id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                ⚙️ GESTIÓN ADM
+            </a>
+            <ul class="dropdown-menu shadow" aria-labelledby="dropdownMenuLink">
+                <li><a class="dropdown-item" href="{% url 'listar_categoria' %}">📁 Categorías</a></li>
+                <li><a class="dropdown-item" href="{% url 'listar_productos' %}">🏷️ Productos</a></li>
+                <li><a class="dropdown-item" href="{% url 'listar_usuarios' %}">👥 Usuarios</a></li>
+                <li><a class="dropdown-item" href="{% url 'listar_menu' %}">📋 Config Menú</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{% url 'reporte_ventas' %}">📊 Reporte de Ventas</a></li>
+                <li><a class="dropdown-item" href="{% url 'gestion_ventas' %}">💰 Ventas / Pedidos</a></li>
+                <li><a class="dropdown-item" href="{% url 'gestion_bodega' %}">🦺 Control de Bodega</a></li>
+                <li><a class="dropdown-item" href="{% url 'dashboard' %}">📊 Dashboard Analytics</a></li>
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="nav-group">
+        {% if user.is_authenticated %}
+            <div class="d-flex align-items-center">
+                <span class="me-3">
+                    Bienvenida, <b>{{ user.username }}</b>
+                    {% if user.is_staff %}<span class="admin-badge">ADMIN</span>{% endif %}
+                </span>
+                <form action="{% url 'logout' %}" method="post" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="border-0 bg-transparent fw-bold text-danger p-0 cursor-pointer">
+                        Cerrar Sesión
+                    </button>
+                </form>
+            </div>
+        {% else %}
+            <a href="{% url 'login' %}" class="me-3">Ingresar</a>
+            <a href="{% url 'registrar' %}" class="btn-ofertas text-decoration-none">Crear Cuenta</a>
+        {% endif %}
+    </div>
+</nav>
+
+<main class="container-main">
+    {% if messages %}
+        <div class="messages-container">
+            {% for message in messages %}
+                <div class="alert alert-success alert-dismissible fade show shadow-sm border-0" role="alert">
+                    <i class="bi bi-check-circle-fill me-2"></i> {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% block content %}
+    {% endblock %}
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

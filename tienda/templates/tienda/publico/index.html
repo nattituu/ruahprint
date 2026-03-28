@@ -1,0 +1,109 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="hero-section shadow-sm mb-5">
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-md-7 text-white">
+                <h1 class="display-3 fw-bold mb-3">¡Marca sus sueños este 2026! </h1>
+                <p class="lead mb-4 fs-4">Etiquetas personalizadas waterproof y textiles de alta resistencia. Diseñadas para durar todo el año escolar y más allá.</p>
+                <div class="d-flex gap-3">
+                    <a href="{% url 'ofertas_escolares' %}" class="btn btn-warning btn-lg fw-bold px-5 py-3 shadow border-0">Ver Ofertas</a>
+                    <a href="#productos" class="btn btn-outline-light btn-lg px-4 py-3 border-2">Explorar Catálogo</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" id="productos">
+    <div class="d-flex justify-content-between align-items-end mb-5">
+        <div>
+            <h2 class="fw-bold h1 text-dark mb-0">Nuestros Favoritos</h2>
+            <p class="text-muted fs-5 mt-2">Calidad Ruah Print garantizada en cada etiqueta.</p>
+        </div>
+        <div class="pb-2">
+            <span class="badge bg-white text-dark border p-2 shadow-sm rounded-pill px-3">
+                Mostrando {{ productos.count }} productos
+            </span>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+        {% for prod in productos %}
+        <div class="col">
+            <div class="card h-100 border-0 shadow-sm card-hover">
+                
+                <div class="badge-category">{{ prod.categoria.nombre }}</div>
+                
+                <!-- Imagen clickeable que lleva al detalle -->
+                <a href="{% url 'detalle_producto' prod.codigo %}">
+                    <div class="product-image-container">
+                        {% if prod.imagen %}
+                            <img src="{{ prod.imagen.url }}" alt="{{ prod.nombre }}">
+                        {% else %}
+                            <img src="https://via.placeholder.com/300x300.png?text=Sin+Imagen" alt="Sin imagen">
+                        {% endif %}
+                    </div>
+                </a>
+                
+                <div class="card-body text-center pt-2">
+                    <!-- Nombre clickeable que lleva al detalle -->
+                    <a href="{% url 'detalle_producto' prod.codigo %}" style="text-decoration: none;">
+                        <h4 class="fw-bold text-dark mb-2">{{ prod.nombre }}</h4>
+                    </a>
+                    <p class="text-muted small px-2 mb-3">
+                        {{ prod.descripcion|truncatechars:85 }}
+                    </p>
+                    
+                    <div class="price-tag mb-4">${{ prod.precio }}</div>
+                    
+                    <div class="px-2 pb-2 d-flex gap-2">
+                        <!-- Botón ver detalle -->
+                        <a href="{% url 'detalle_producto' prod.codigo %}" 
+                           class="btn btn-outline-secondary w-50 py-2 rounded-3">
+                            Ver detalle
+                        </a>
+
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'agregar_carrito' prod.codigo %}" 
+                               class="btn btn-buy w-50 py-2 fw-bold text-white shadow-sm">
+                                🛒 Agregar
+                            </a>
+                        {% else %}
+                            <a href="{% url 'login' %}" 
+                               class="btn btn-outline-secondary w-50 py-2 rounded-3">
+                                Ingresa
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+            <div class="col-12 text-center py-5">
+                <p class="fs-4 text-muted border p-5 rounded-4 bg-light">No hay productos disponibles actualmente.</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="newsletter-box p-5 rounded-5 shadow-lg text-center border-0 mb-5 bg-white">
+        <div class="row justify-content-center">
+            <div class="col-md-9">
+                <h2 class="fw-bold text-dark mb-3 h1">¡Descubre promociones exclusivas! 💌</h2>
+                <p class="text-muted fs-5 mb-4 px-lg-5">Recibe ofertas especiales y consejos de organización directamente en tu correo electrónico.</p>
+                
+                <form class="row g-3 justify-content-center mt-2">
+                    <div class="col-md-7">
+                        <input type="email" class="form-control form-control-lg border-2 shadow-none" placeholder="Tu correo electrónico...">
+                    </div>
+                    <div class="col-md-auto">
+                        <button type="button" class="btn btn-dark btn-lg px-5 fw-bold shadow">Suscribirme</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

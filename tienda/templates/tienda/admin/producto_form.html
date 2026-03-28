@@ -1,0 +1,28 @@
+{% extends 'tienda/base.html' %}
+
+{% block content %}
+<div style="max-width: 600px; margin: auto; background: white; padding: 20px; border: 1px solid #ccc;">
+    <h2>{% if form.instance.codigo %}Editar{% else %}Nuevo{% endif %} Producto</h2>
+    <hr>
+    
+    <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    {% for field in form %}
+        <div class="mb-3">
+            {{ field.label_tag }}
+            {{ field }}
+            
+            {% if field.name == 'imagen' and form.instance.imagen %}
+                <div class="mt-2">
+                    <p class="small text-muted">Imagen actual:</p>
+                    <img src="{{ form.instance.imagen.url }}" style="width: 100px; border: 1px solid #ddd;">
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    <button type="submit" class="btn btn-primary">Guardar Producto</button>
+</form>
+</div>
+{% endblock %}

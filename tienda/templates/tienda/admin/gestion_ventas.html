@@ -1,0 +1,53 @@
+{% extends 'tienda/base.html' %}
+
+{% block content %}
+<div class="admin-page">
+
+    <div class="admin-header">
+        <h2>💰 Gestión de Ventas y Logística</h2>
+    </div>
+
+    <div class="table-responsive">
+        <table class="tabla-admin">
+            <thead>
+                <tr>
+                    <th>Pedido #</th>
+                    <th>Fecha</th>
+                    <th>Cliente</th>
+                    <th>Total</th>
+                    <th>Estado Actual</th>
+                    <th class="ventas-th-centro">Cambiar Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for v in ventas %}
+                <tr>
+                    <td class="ventas-id">#{{ v.id }}</td>
+                    <td>{{ v.fecha|date:"d/m/Y" }}</td>
+                    <td>{{ v.usuario.username }}</td>
+                    <td class="carrito-subtotal">${{ v.total }}</td>
+                    <td>
+                        <span class="estado-badge estado-{{ v.estado.nombre|lower }}">
+                            {{ v.estado.nombre }}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="ventas-acciones">
+                            <a href="{% url 'cambiar_estado' v.id 'Pagado' %}" class="btn-estado btn-estado-pagado">Pagado</a>
+                            <a href="{% url 'cambiar_estado' v.id 'Bodega' %}" class="btn-estado btn-estado-bodega">Bodega</a>
+                            <a href="{% url 'cambiar_estado' v.id 'Enviado' %}" class="btn-estado btn-estado-enviado">Enviado</a>
+                            <a href="{% url 'cambiar_estado' v.id 'Entregado' %}" class="btn-estado btn-estado-entregado">Entregado</a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="tabla-vacia">No hay ventas registradas.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock %}

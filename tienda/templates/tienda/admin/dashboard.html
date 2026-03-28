@@ -1,0 +1,196 @@
+{% extends 'tienda/base.html' %}
+
+{% block content %}
+<div class="admin-page">
+
+    <div class="admin-header mb-4">
+        <h2>📊 Dashboard Analytics</h2>
+    </div>
+
+    {% if productos_criticos %}
+    <div class="dashboard-alerta">
+        <h5>⚠️ Stock Crítico — {{ cantidad_criticos }} producto{{ cantidad_criticos|pluralize }} bajo el mínimo</h5>
+        <div class="row mt-3">
+            {% for stock in productos_criticos %}
+            <div class="col-md-4 mb-3">
+                <div class="dashboard-stock-card dashboard-stock-critico">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <strong>{{ stock.producto.nombre }}</strong>
+                        <span class="estado-badge estado-pendiente">⚠️ Crítico</span>
+                    </div>
+                    <p class="mb-1">Stock actual: <b class="text-danger">{{ stock.cantidad }}</b> uni.</p>
+                    <p class="mb-2">Mínimo configurado: <b>{{ stock.stock_critico }}</b> uni.</p>
+                    <div class="dashboard-barra-fondo">
+                        <div class="dashboard-barra-critica" style="width: {{ stock.porcentaje_stock }}%"></div>
+                    </div>
+                    <form action="{% url 'actualizar_stock_critico' stock.producto.codigo %}" method="POST" class="mt-2 d-flex gap-2">
+                        {% csrf_token %}
+                        <input type="number" name="stock_critico" value="{{ stock.stock_critico }}"
+                               class="form-control form-control-sm" style="width: 80px;" min="1">
+                        <button type="submit" class="btn-accion btn-editar">Actualizar mínimo</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="reporte-card reporte-card-verde">
+                <h5>Total Recaudado</h5>
+                <p class="reporte-valor">${{ total_recaudado }}</p>
+                <small>Pedidos pagados</small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="reporte-card reporte-card-azul">
+                <h5>Ticket Promedio</h5>
+                <p class="reporte-valor">${{ ticket_promedio }}</p>
+                <small>Por pedido pagado</small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="reporte-card reporte-card-celeste">
+                <h5>Pedidos Pagados</h5>
+                <p class="reporte-valor">{{ pedidos_pagados }}</p>
+                <small>Confirmados por pasarela</small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="reporte-card reporte-card-naranja">
+                <h5>Carritos Abandonados</h5>
+                <p class="reporte-valor">{{ carritos_abandonados }}</p>
+                <small>Sin finalizar compra</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6 mb-4">
+            <div class="dashboard-grafico-card">
+                <h5 class="dashboard-grafico-titulo">🏆 Top 5 Productos Más Vendidos</h5>
+                <canvas id="chartProductos"></canvas>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="dashboard-grafico-card">
+                <h5 class="dashboard-grafico-titulo">🛒 Estado de Carritos</h5>
+                <canvas id="chartCarritos"></canvas>
+            </div>
+        </div>
+
+        <div class="col-md-12 mb-4">
+            <div class="dashboard-grafico-card">
+                <h5 class="dashboard-grafico-titulo">📈 Ventas Últimos 7 Días</h5>
+                <canvas id="chartVentas"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <table class="tabla-admin">
+                <thead>
+                    <tr>
+                        <th colspan="3">👑 Clientes que más compran</th>
+                    </tr>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Pedidos</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cliente in top_clientes %}
+                    <tr>
+                        <td>{{ cliente.cliente__nombre_completo }}</td>
+                        <td class="carrito-centro">{{ cliente.cantidad_pedidos }}</td>
+                        <td class="carrito-subtotal">${{ cliente.total_compras }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="3" class="tabla-vacia">Sin datos aún</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <table class="tabla-admin">
+                <thead>
+                    <tr>
+                        <th colspan="2">😴 Productos sin ventas</th>
+                    </tr>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Precio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for prod in productos_sin_ventas %}
+                    <tr>
+                        <td>{{ prod.nombre }}</td>
+                        <td class="carrito-subtotal">${{ prod.precio }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="2" class="tabla-vacia">¡Todos los productos tienen ventas! 🎉</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const chartProductosData = {{ chart_productos|safe }};
+    const chartCarritosData  = {{ chart_carritos|safe }};
+    const chartVentasData    = {{ chart_ventas_periodo|safe }};
+
+    new Chart(document.getElementById('chartProductos'), {
+        type: 'bar',
+        data: {
+            labels: chartProductosData.labels,
+            datasets: [{
+                label: 'Unidades vendidas',
+                data: chartProductosData.data,
+                backgroundColor: ['#27ae60','#2980b9','#e67e22','#8e44ad','#e74c3c'],
+                borderRadius: 8,
+            }]
+        },
+        options: { plugins: { legend: { display: false } }, responsive: true }
+    });
+
+    new Chart(document.getElementById('chartCarritos'), {
+        type: 'doughnut',
+        data: {
+            labels: chartCarritosData.labels,
+            datasets: [{
+                data: chartCarritosData.data,
+                backgroundColor: ['#27ae60', '#f39c12', '#e74c3c'],
+            }]
+        },
+        options: { responsive: true }
+    });
+
+    new Chart(document.getElementById('chartVentas'), {
+        type: 'line',
+        data: {
+            labels: chartVentasData.labels.length ? chartVentasData.labels : ['Sin datos'],
+            datasets: [{
+                label: 'Ventas ($)',
+                data: chartVentasData.data.length ? chartVentasData.data : [0],
+                borderColor: '#2980b9',
+                backgroundColor: 'rgba(41,128,185,0.1)',
+                fill: true,
+                tension: 0.4,
+                borderWidth: 2,
+            }]
+        },
+        options: { responsive: true }
+    });
+</script>
+{% endblock %}

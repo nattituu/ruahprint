@@ -1,0 +1,23 @@
+{% extends 'tienda/base.html' %}
+
+{% block content %}
+<div class="form-card">
+
+    <h2>{% if form.instance.id %}Editar{% else %}Crear{% endif %} Usuario</h2>
+    <p class="form-subtitle">Gestiona el acceso y permisos de los usuarios de la tienda.</p>
+    <hr>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <div class="form-actions">
+            <button type="submit" class="btn-guardar">Guardar Usuario</button>
+            <a href="{% url 'listar_usuarios' %}" class="btn-cancelar">Cancelar</a>
+        </div>
+    </form>
+
+    <p class="form-nota">* "is_staff" permite que el usuario vea las opciones de gestión en el Navbar.</p>
+
+</div>
+{% endblock %}

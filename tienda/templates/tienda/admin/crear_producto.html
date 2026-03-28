@@ -1,0 +1,21 @@
+{% extends 'tienda/base.html' %}
+
+{% block content %}
+<div class="form-card">
+
+    <h2>Añadir Nuevo Producto</h2>
+    <p class="form-subtitle">Completa los datos para agregar un producto al catálogo de Ruah Print.</p>
+    <hr>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <div class="form-actions">
+            <button type="submit" class="btn-guardar">Guardar Producto</button>
+            <a href="{% url 'listar_categoria' %}" class="btn-cancelar">Cancelar</a>
+        </div>
+    </form>
+
+</div>
+{% endblock %}
