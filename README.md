@@ -113,7 +113,7 @@ Abre el navegador en **http://localhost:8000**
 | Campo | Valor |
 |-------|-------|
 | Usuario | `natta` |
-| Contraseña | `tu_password_aqui` |
+| Contraseña | `andrea13.` |
 
 ### Cliente
 | Campo | Valor |
@@ -181,16 +181,16 @@ portafolio/
 ## 📸 Capturas de pantalla
 
 ### Inicio — Catálogo
-![Inicio](capturas/inicio.png)
+![Inicio](capturas/inicio.jpg)
 
 ### Carrito de compras
-![Carrito](capturas/carrito.png)
+![Carrito](capturas/carrito.jpg)
 
 ### Dashboard Analytics
-![Dashboard](capturas/dashboard.png)
+![Dashboard](capturas/dashboard1.jpg) 
 
 ### Panel de administración
-![Admin](capturas/admin.png)
+![Admin](capturas/admin.jpg)
 
 ---
 
