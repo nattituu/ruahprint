@@ -18,7 +18,7 @@ E-commerce desarrollado con **Django** y **PostgreSQL** como proyecto de portafo
 
 ### 1. Clonar el repositorio
 ```bash
-git clone https://github.com/tu-usuario/ruahprint.git
+git clone https://github.com/nattituu/ruahprint.git
 cd ruahprint
 ```
 
